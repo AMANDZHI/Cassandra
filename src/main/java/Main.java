@@ -52,14 +52,15 @@ public class Main {
         }
 
         Book book = new Book();
-        book.setId(UUID.randomUUID());
-        book.setTitle("firstTitle");
+        book.setId(UUID.fromString("e325c590-90e5-4f21-8633-30f7bf16227b"));
+        book.setTitle("thirdTitle");
 
         bookRepository.insertbookByTitle(book);
 
         ResultSet result4 = session.execute("SELECT * FROM " + keyspaceName + ".books;");
         String title = result4.one().getString("title");
 
-        System.out.println(title);
+        System.out.println(result4.all());
+
     }
 }

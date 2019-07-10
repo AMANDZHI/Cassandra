@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="Apache Cassandra - @localhost">
+  <database-model serializer="dbm" dbms="CASSANDRA" family-id="CASSANDRA" format-version="4.15">
+    <root id="1">
+      <ServerVersion>3.11.4</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="library">
+      <Replication>{&apos;class&apos;: &apos;org.apache.cassandra.locator.SimpleStrategy&apos;, &apos;replication_factor&apos;: &apos;1&apos;}</Replication>
+    </schema>
+    <schema id="3" parent="1" name="system">
+      <Replication>{&apos;class&apos;: &apos;org.apache.cassandra.locator.LocalStrategy&apos;}</Replication>
+    </schema>
+    <schema id="4" parent="1" name="system_auth">
+      <Replication>{&apos;class&apos;: &apos;org.apache.cassandra.locator.SimpleStrategy&apos;, &apos;replication_factor&apos;: &apos;1&apos;}</Replication>
+    </schema>
+    <schema id="5" parent="1" name="system_distributed">
+      <Replication>{&apos;class&apos;: &apos;org.apache.cassandra.locator.SimpleStrategy&apos;, &apos;replication_factor&apos;: &apos;3&apos;}</Replication>
+    </schema>
+    <schema id="6" parent="1" name="system_schema">
+      <Replication>{&apos;class&apos;: &apos;org.apache.cassandra.locator.LocalStrategy&apos;}</Replication>
+    </schema>
+    <schema id="7" parent="1" name="system_traces">
+      <Replication>{&apos;class&apos;: &apos;org.apache.cassandra.locator.SimpleStrategy&apos;, &apos;replication_factor&apos;: &apos;2&apos;}</Replication>
+      <Visible>1</Visible>
+    </schema>
+    <role id="8" parent="1" name="cassandra">
+      <SuperRole>1</SuperRole>
+      <CanLogin>1</CanLogin>
+    </role>
+    <table id="9" parent="7" name="events">
+      <Comment>tracing events</Comment>
+      <Caching>{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}</Caching>
+      <Compaction>{&apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;, &apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;}</Compaction>
+      <Compression>{&apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;, &apos;chunk_length_in_kb&apos;: &apos;64&apos;}</Compression>
+      <DclocalReadRepairChance>0.0</DclocalReadRepairChance>
+      <SpeculativeRetry>99PERCENTILE</SpeculativeRetry>
+      <GcGraceSeconds>0</GcGraceSeconds>
+      <MemtableFlushPeriodInMs>3600000</MemtableFlushPeriodInMs>
+    </table>
+    <table id="10" parent="7" name="sessions">
+      <Comment>tracing sessions</Comment>
+      <Caching>{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}</Caching>
+      <Compaction>{&apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;, &apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;}</Compaction>
+      <Compression>{&apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;, &apos;chunk_length_in_kb&apos;: &apos;64&apos;}</Compression>
+      <DclocalReadRepairChance>0.0</DclocalReadRepairChance>
+      <SpeculativeRetry>99PERCENTILE</SpeculativeRetry>
+      <GcGraceSeconds>0</GcGraceSeconds>
+      <MemtableFlushPeriodInMs>3600000</MemtableFlushPeriodInMs>
+    </table>
+    <key id="11" parent="9" name="primary key">
+      <Columns>session_id
+event_id|ASC
+</Columns>
+    </key>
+    <column id="12" parent="9" name="session_id">
+      <Position>1</Position>
+      <DataType>uuid|0s</DataType>
+    </column>
+    <column id="13" parent="9" name="event_id">
+      <Position>2</Position>
+      <DataType>timeuuid|0s</DataType>
+    </column>
+    <column id="14" parent="9" name="activity">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="15" parent="9" name="source">
+      <Position>4</Position>
+      <DataType>inet|0s</DataType>
+    </column>
+    <column id="16" parent="9" name="source_elapsed">
+      <Position>5</Position>
+      <DataType>int|0s</DataType>
+    </column>
+    <column id="17" parent="9" name="thread">
+      <Position>6</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <key id="18" parent="10" name="primary key">
+      <Columns>session_id
+</Columns>
+    </key>
+    <column id="19" parent="10" name="session_id">
+      <Position>1</Position>
+      <DataType>uuid|0s</DataType>
+    </column>
+    <column id="20" parent="10" name="client">
+      <Position>2</Position>
+      <DataType>inet|0s</DataType>
+    </column>
+    <column id="21" parent="10" name="command">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="22" parent="10" name="coordinator">
+      <Position>4</Position>
+      <DataType>inet|0s</DataType>
+    </column>
+    <column id="23" parent="10" name="duration">
+      <Position>5</Position>
+      <DataType>int|0s</DataType>
+    </column>
+    <column id="24" parent="10" name="parameters">
+      <Position>6</Position>
+      <DataType>map&lt;text, text&gt;|0s</DataType>
+    </column>
+    <column id="25" parent="10" name="request">
+      <Position>7</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="26" parent="10" name="started_at">
+      <Position>8</Position>
+      <DataType>timestamp|0s</DataType>
+    </column>
+  </database-model>
+</dataSource>
